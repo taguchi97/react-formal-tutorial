@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import Square from './Square'
 
 const Board = () => {
@@ -17,33 +17,46 @@ const Board = () => {
       , [])
     return <Square value={values[props.number]} click={handleClick} />
   }
+  const checkWinner = (array) => {
+    const rows = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ]
+    console.log(rows)
+    for (let i = 0; i < rows.length; i++) {
+      if (array[rows[i][0]] && array[rows[i][0]] === array[rows[i][1]] && array[rows[i][1]] === values[rows[i][2]]) {
+        return array[rows[i][0]]
+      }
+    }
+    return null
+  }
+  let win = checkWinner(values)?checkWinner(values):""
   const status = 'Next player : ' + player
+  const winner = 'winner : ' + win
   return (
     <>
-      {/* <button type='button' onClick={()=>{console.log(values)}}>console</button> */}
       <div className='status'>{status}</div>
+      <div className='status'>{winner}</div>
       <div className='board-row'>
         <RenderSquare number={0} />
         <RenderSquare number={1} />
         <RenderSquare number={2} />
-        {/* {renderSquare(1)}
-        {renderSquare(2)} */}
       </div>
       <div className='board-row'>
         <RenderSquare number={3} />
         <RenderSquare number={4} />
         <RenderSquare number={5} />
-        {/* {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)} */}
       </div>
       <div className='board-row'>
         <RenderSquare number={6} />
         <RenderSquare number={7} />
         <RenderSquare number={8} />
-        {/* {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)} */}
       </div>
     </>
   )
